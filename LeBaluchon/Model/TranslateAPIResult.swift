@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct TranslateAPIResult: Decodable {
+    var translatedText: String
+
+}

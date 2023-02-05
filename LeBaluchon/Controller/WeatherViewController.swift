@@ -9,6 +9,10 @@ import UIKit
 
 class WeatherViewController: UIViewController {
 
+    @IBOutlet weak var cityNameLabel: UILabel!
+    @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

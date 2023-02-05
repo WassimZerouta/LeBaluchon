@@ -14,7 +14,7 @@ class MeteoAPIHelper {
     let baseURL = "https://api.openweathermap.org/data/2.5/forecast&appid=621bd2fdb72285815bbbc4a732a9d250&units=metric&lang=fr"
     
     
-    func getUrlString(coords: String) -> String? {
+    func getUrl(coords: String) -> String? {
         let shared = MeteoAPIHelper()
         let urlString = shared.baseURL+coords
         print(urlString)
@@ -22,7 +22,7 @@ class MeteoAPIHelper {
     }
     
     func parsehWeather(coords: String,  completion: @escaping (Meteo?) -> Void) {
-        if let urlString = getUrlString(coords: coords) {
+        if let urlString = getUrl(coords: coords) {
             let Url = URL(string: urlString)
             URLSession.shared.dataTask(with: Url!) { data, response, error in
                 if let successData = data {

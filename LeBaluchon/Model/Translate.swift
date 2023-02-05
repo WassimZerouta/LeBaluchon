@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+class Translate {
+    let trad: String
+   
+    
+    init(trad: String) {
+        self.trad = trad
+    }
+       
+}

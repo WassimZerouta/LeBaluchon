@@ -9,6 +9,12 @@ import UIKit
 
 class TranslateViewController: UIViewController {
 
+    @IBOutlet weak var sourceButton: UIButton!
+    @IBOutlet weak var targetButton: UIButton!
+    @IBOutlet weak var querryTextField: UITextField!
+    @IBOutlet weak var resultTextField: UITextField!
+    @IBOutlet weak var translateButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -16,5 +22,7 @@ class TranslateViewController: UIViewController {
     }
     
 
-
+    @IBAction func translateButtonPressed(_ sender: Any) {
+    }
+    
 }

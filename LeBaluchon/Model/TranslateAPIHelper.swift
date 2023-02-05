@@ -6,3 +6,46 @@
 //
 
 import Foundation
+
+class TranslateAPIHelper {
+    
+    static let shared = TranslateAPIHelper()
+    
+    let baseUrl = "https://translation.googleapis.com/language/translate/v2?key=AIzaSyCwcNVALcY0pgBXcu1ezeyxfHaG_xB_m6I"
+    let source = "fr"
+    let target = "&=en"
+    
+    func getUrl(q: String) -> String? {
+        var url = baseUrl
+        url += "&source=\(source)"
+        url += "&target=\(target)"
+        url += "&q=\(q)"
+        
+        return url
+    }
+    
+    func performRequest(q: String, completion: @escaping (Translate?) -> Void) {
+        
+        if let urlString = getUrl(q: q) {
+            let url = URL(string: urlString)
+            URLSession.shared.dataTask(with: url!) {data, response, error in
+                if let successData = data {
+                    print(String(data: successData, encoding: .utf8)!)
+                    let decoder = JSONDecoder()
+                    do{
+                        let results = try decoder.decode(TranslateAPIResult.self, from: successData)
+                        completion(Translate(trad: results.translatedText))
+                    } catch {
+                        print(error)
+                    }
+                } else {
+                    completion(nil)
+                }
+            }.resume()
+        } else
+        {
+            completion(nil)
+        }
+    }
+        
+    }
