@@ -14,7 +14,7 @@ class ChangeAPIHelper {
     let baseUrl = "https://api.apilayer.com/fixer/convert"
     let from = "EUR"
     let to = "USD"
-    let amount : String = String(12)
+ 
     
     func getUrl(amount: String) -> String? {
         var url = baseUrl

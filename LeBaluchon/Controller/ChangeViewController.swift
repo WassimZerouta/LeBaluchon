@@ -10,17 +10,32 @@ import UIKit
 class ChangeViewController: UIViewController {
     
     
-    @IBOutlet weak var fromLabel: UILabel!
+    
+    @IBOutlet weak var fromTextField: UITextField!
     @IBOutlet weak var toLabel: UILabel!
     @IBOutlet weak var changeButton: UIButton!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        fromTextFieldUi()
 
         // Do any additional setup after loading the view.
     }
     
     @IBAction func changeButtonPressed(_ sender: Any) {
+        ChangeAPIHelper.shared.performRequest(amount: fromTextField.text!) { changeValue in
+            DispatchQueue.main.async {
+               
+                self.toLabel.text = String(changeValue!.roundedValue())
+                
+            }
+        }
+    }
+    
+    func fromTextFieldUi() {
+        fromTextField.keyboardType = .numberPad
     }
     
 
