@@ -17,12 +17,43 @@ class TranslateViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setPopUpButtonAction()
 
-        // Do any additional setup after loading the view.
     }
     
+    func setPopUpButtonAction() {
+        sourceButton.menu = UIMenu(children: [
+            UIAction(title: "French", state: .on, handler: { action in
+                print("FR")
+            }),
+            UIAction(title: "English", handler: { action in
+                print("EN")
+            })
+            
+        ])
+        
+        sourceButton.showsMenuAsPrimaryAction = true
+        sourceButton.changesSelectionAsPrimaryAction = true
+        
+        targetButton.menu = UIMenu(children: [
+            UIAction(title: "French", handler: { action in
+                print("FR")
+            }),
+            UIAction(title: "English", state: .on, handler: { action in
+                print("EN")
+            })
+            
+        ])
+        
+        targetButton.showsMenuAsPrimaryAction = true
+        targetButton.changesSelectionAsPrimaryAction = true
+        
+        
+    }
 
     @IBAction func translateButtonPressed(_ sender: Any) {
+        
     }
     
 }

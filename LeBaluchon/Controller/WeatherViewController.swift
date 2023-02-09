@@ -18,19 +18,17 @@ class WeatherViewController: UIViewController {
     let locationManager = CLLocationManager()
     var longitude = 0.00
     var latitude = 0.00
+    var coords = ""
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
         locationManager.delegate = self
-        
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
-
-        
-    }
     
+    }
 }
 
 extension WeatherViewController: CLLocationManagerDelegate {
@@ -39,8 +37,16 @@ extension WeatherViewController: CLLocationManagerDelegate {
         if let location = locations.last {
             latitude = location.coordinate.latitude
             longitude = location.coordinate.longitude
-          
-        }
+            coords = "&lon=\(longitude)&lat=\(latitude)"
+            
+            MeteoAPIHelper.shared.performRequest(coords: coords,  completion: { weatherValue in
+                DispatchQueue.main.async {
+                    self.temperatureLabel.text = String(weatherValue!.temperature)
+                    self.descriptionLabel.text = weatherValue!.description
+                    
+                }
+            }
+        )}
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

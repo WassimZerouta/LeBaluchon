@@ -28,7 +28,7 @@ class ChangeAPIHelper {
         return url
     }
     
-    func performRequest(amount: String, completion: @escaping (Change?) -> Void) {
+    func performRequest(amount: String, completion: @escaping (Bool, Change?) -> Void) {
         
         if let url = getUrl(amount: amount) {
             var request = URLRequest(url: URL(string: url)!,timeoutInterval: Double.infinity)
@@ -40,17 +40,17 @@ class ChangeAPIHelper {
                     let decoder = JSONDecoder()
                     do{
                         let results = try decoder.decode(ChangeAPIResult.self, from: successData)
-                        completion(Change(value: results.result))
+                        completion(true, Change(value: results.result))
                     } catch {
                         print(error)
                     }
                 } else {
-                    completion(nil)
+                    completion(false, nil)
                 }
             }.resume()
         } else
         {
-            completion(nil)
+            completion(false, nil)
         }
     }
         

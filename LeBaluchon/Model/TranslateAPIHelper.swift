@@ -24,7 +24,7 @@ class TranslateAPIHelper {
         return url
     }
     
-    func performRequest(q: String, completion: @escaping (Translate?) -> Void) {
+    func performRequest(q: String, completion: @escaping (Bool, Translate?) -> Void) {
         
         if let urlString = getUrl(q: q) {
             let url = URL(string: urlString)
@@ -34,17 +34,17 @@ class TranslateAPIHelper {
                     let decoder = JSONDecoder()
                     do{
                         let results = try decoder.decode(TranslateAPIResult.self, from: successData)
-                        completion(Translate(trad: results.translatedText))
+                        completion(true, Translate(trad: results.translatedText))
                     } catch {
                         print(error)
                     }
                 } else {
-                    completion(nil)
+                    completion(false, nil)
                 }
             }.resume()
         } else
         {
-            completion(nil)
+            completion(false, nil)
         }
     }
         
