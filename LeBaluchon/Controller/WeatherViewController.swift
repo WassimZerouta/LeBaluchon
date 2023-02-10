@@ -15,6 +15,7 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     
+    
     let locationManager = CLLocationManager()
     var longitude = 0.00
     var latitude = 0.00
@@ -39,10 +40,11 @@ extension WeatherViewController: CLLocationManagerDelegate {
             longitude = location.coordinate.longitude
             coords = "&lon=\(longitude)&lat=\(latitude)"
             
-            MeteoAPIHelper.shared.performRequest(coords: coords,  completion: { weatherValue in
+            MeteoAPIHelper.shared.performRequest(coords: coords,  completion: { _, weatherValue in
                 DispatchQueue.main.async {
                     self.temperatureLabel.text = String(weatherValue!.temperature)
                     self.descriptionLabel.text = weatherValue!.description
+                    self.cityNameLabel.text = weatherValue?.city
                     
                 }
             }

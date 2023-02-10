@@ -12,8 +12,11 @@ class TranslateViewController: UIViewController {
     @IBOutlet weak var sourceButton: UIButton!
     @IBOutlet weak var targetButton: UIButton!
     @IBOutlet weak var querryTextField: UITextField!
-    @IBOutlet weak var resultTextField: UITextField!
     @IBOutlet weak var translateButton: UIButton!
+    @IBOutlet weak var translateResultLabel: UILabel!
+    
+    var sourceSelected = "fr"
+    var targetSelected = "en"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,10 +28,10 @@ class TranslateViewController: UIViewController {
     func setPopUpButtonAction() {
         sourceButton.menu = UIMenu(children: [
             UIAction(title: "French", state: .on, handler: { action in
-                print("FR")
+                self.sourceSelected = "fr"
             }),
             UIAction(title: "English", handler: { action in
-                print("EN")
+                self.sourceSelected = "en"
             })
             
         ])
@@ -38,10 +41,10 @@ class TranslateViewController: UIViewController {
         
         targetButton.menu = UIMenu(children: [
             UIAction(title: "French", handler: { action in
-                print("FR")
+                self.targetSelected = "fr"
             }),
             UIAction(title: "English", state: .on, handler: { action in
-                print("EN")
+                self.targetSelected = "en"
             })
             
         ])
@@ -53,6 +56,13 @@ class TranslateViewController: UIViewController {
     }
 
     @IBAction func translateButtonPressed(_ sender: Any) {
+        TranslateAPIHelper.shared.performRequest(q: querryTextField.text ?? "", source: sourceSelected, target: targetSelected) { _, translateValue in
+            DispatchQueue.main.async {
+               
+                self.translateResultLabel.text = translateValue?.trad
+                
+            }
+        }
         
     }
     

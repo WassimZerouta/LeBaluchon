@@ -8,6 +8,13 @@
 import Foundation
 
 struct TranslateAPIResult: Decodable {
-    var translatedText: String
+    var data: Data
+}
 
+struct Data: Decodable {
+    var translations: [Translations]
+}
+
+struct Translations: Decodable {
+    var translatedText: String
 }

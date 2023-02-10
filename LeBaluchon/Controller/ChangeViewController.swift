@@ -25,7 +25,7 @@ class ChangeViewController: UIViewController {
     }
     
     @IBAction func changeButtonPressed(_ sender: Any) {
-        ChangeAPIHelper.shared.performRequest(amount: fromTextField.text!) { changeValue in
+        ChangeAPIHelper.shared.performRequest(amount: fromTextField.text!) { _, changeValue in
             DispatchQueue.main.async {
                
                 self.toLabel.text = String(changeValue!.roundedValue())

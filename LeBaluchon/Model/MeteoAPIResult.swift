@@ -7,15 +7,12 @@
 
 import Foundation
 
-struct MeteoAPIResult: Decodable {
-    var list: [Forecast]
-}
 
-struct Forecast: Decodable {
-    var dt: Int
-    var main: Main
+struct MeteoAPIResult: Decodable {
     var weather: [Weather]
-    var dt_txt: String
+    var main: Main
+    var dt: Int
+    var name: String
 }
 
 struct Main: Decodable {

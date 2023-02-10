@@ -11,9 +11,11 @@ class Meteo {
     
     let temperature: Double
     let description: String
+    let city: String
     
-    init(temperature: Double, description: String) {
+    init(temperature: Double, description: String, city: String) {
         self.temperature = temperature
         self.description = description
+        self.city = city
     }
 }
