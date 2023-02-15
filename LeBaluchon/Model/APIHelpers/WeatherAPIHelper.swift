@@ -7,9 +7,9 @@
 
 import Foundation
 
-class MeteoAPIHelper {
+class WeatherAPIHelper {
     
-    static let shared = MeteoAPIHelper(session: URLSession(configuration: .default))
+    static let shared = WeatherAPIHelper(session: URLSession(configuration: .default))
     
     private var task: URLSessionDataTask?
     private var session = URLSession(configuration: .default)
@@ -18,11 +18,15 @@ class MeteoAPIHelper {
         self.session = session
     }
     
-    let baseURL = "https://api.openweathermap.org/data/2.5/weather?appid=1f3aa604e289c99c611abb6afd24872d&units=metric&lang=fr"
+    let apiKey = ProcessInfo.processInfo.environment["SECRET_KEY_WEATHER_API"]!
+    let baseURL = "https://api.openweathermap.org/data/2.5/weather?"
     
     
     func getUrl(coords: String) -> String? {
-        let urlString = baseURL+coords
+        var url = baseURL
+        url += apiKey
+        url += "&units=metric&lang=fr"
+        let urlString = url + coords
         print(urlString)
         return urlString
     }
@@ -36,7 +40,7 @@ class MeteoAPIHelper {
                 if let successData = data {
                     let decoder = JSONDecoder()
                     do {
-                        let results = try decoder.decode(MeteoAPIResult.self, from: successData)
+                        let results = try decoder.decode(WeatherAPIResult.self, from: successData)
                         completion(true, Meteo(temperature: results.main.temp, description: results.weather[0].description, city: results.name))
                     } catch {
                         print(error)

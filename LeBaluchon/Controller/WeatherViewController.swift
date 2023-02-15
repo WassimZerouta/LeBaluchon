@@ -40,7 +40,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
             longitude = location.coordinate.longitude
             coords = "&lon=\(longitude)&lat=\(latitude)"
             
-            MeteoAPIHelper.shared.performRequest(coords: coords,  completion: { _, weatherValue in
+            WeatherAPIHelper.shared.performRequest(coords: coords,  completion: { _, weatherValue in
                 DispatchQueue.main.async {
                     self.temperatureLabel.text = String(weatherValue!.temperature)
                     self.descriptionLabel.text = weatherValue!.description

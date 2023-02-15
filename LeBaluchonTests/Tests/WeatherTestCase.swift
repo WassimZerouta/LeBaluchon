@@ -13,10 +13,10 @@ final class WeatherTestCase: XCTestCase {
 
    func testGetWeatherShouldPostFailedCallBackError() {
        //Given
-       let MeteoAPIHelper = MeteoAPIHelper(session: URLSessionWeatherFake(data: nil, response: nil, error: FakeWeatherResponseData.error))
+       let WeatherAPIHelper = WeatherAPIHelper(session: URLSessionFake(data: nil, response: nil, error: FakeResponseData.error))
        //When
        let expectation = XCTestExpectation(description: "Wait for queu change")
-       MeteoAPIHelper.performRequest(coords: "&lon=-122.40&lat=37.78") { success, weather in
+       WeatherAPIHelper.performRequest(coords: "&lon=-122.40&lat=37.78") { success, weather in
            //Then
            XCTAssertFalse(success)
            XCTAssertNil(weather)
@@ -27,10 +27,10 @@ final class WeatherTestCase: XCTestCase {
     
     func testGetWeatherShouldPostFailedCallBackIfNoData() {
         //Given
-        let MeteoAPIHelper = MeteoAPIHelper(session: URLSessionWeatherFake(data: nil, response: nil, error: nil))
+        let WeatherAPIHelper = WeatherAPIHelper(session: URLSessionFake(data: nil, response: nil, error: nil))
         //When
         let expectation = XCTestExpectation(description: "Wait for queu change")
-        MeteoAPIHelper.performRequest(coords: "&lon=-122.40&lat=37.78") { success, weather in
+        WeatherAPIHelper.performRequest(coords: "&lon=-122.40&lat=37.78") { success, weather in
             //Then
             XCTAssertFalse(success)
             XCTAssertNil(weather)
@@ -41,9 +41,9 @@ final class WeatherTestCase: XCTestCase {
     
     func testGetWeatherShouldPostFailedCallBackIfIncorrectResponse() {
         //Given
-        let MeteoAPIHelper = MeteoAPIHelper(session: URLSessionWeatherFake(data: FakeWeatherResponseData.weatherIncorrectData, response: FakeWeatherResponseData.responseKO, error: nil))
+        let WeatherAPIHelper = WeatherAPIHelper(session: URLSessionFake(data: FakeResponseData.incorrectData, response: FakeResponseData.weatherResponseKO, error: nil))
         //When
-        MeteoAPIHelper.performRequest(coords: "&lon=-122.40&lat=37.78") { success, weather in
+        WeatherAPIHelper.performRequest(coords: "&lon=-122.40&lat=37.78") { success, weather in
             //Then
             XCTAssertFalse(success)
             XCTAssertNil(weather)
@@ -52,22 +52,21 @@ final class WeatherTestCase: XCTestCase {
     
     func testGetWeatherShouldPostFailedCallBackIfInccorectData() {
         //Given
-        let MeteoAPIHelper = MeteoAPIHelper(session: URLSessionWeatherFake(data: FakeWeatherResponseData.weatherIncorrectData, response: FakeWeatherResponseData.responseOk, error: nil))
+        let WeatherAPIHelper = WeatherAPIHelper(session: URLSessionFake(data: FakeResponseData.incorrectData, response: FakeResponseData.weatherResponseOk, error: nil))
         //When
-        MeteoAPIHelper.performRequest(coords: "&lon=-122.40&lat=37.78") { success, weather in
+        WeatherAPIHelper.performRequest(coords: "&lon=-122.40&lat=37.78") { success, weather in
             //Then
             XCTAssertFalse(success)
             XCTAssertNil(weather)
-
         }
      }
     
     func testGetWeatherShouldPostSuccessCallBackIfNoErrorAndCorrectData() {
         //Given
-        let MeteoAPIHelper = MeteoAPIHelper(session: URLSessionWeatherFake(data: FakeWeatherResponseData.weatherCorrectData, response: FakeWeatherResponseData.responseOk, error: nil))
+        let WeatherAPIHelper = WeatherAPIHelper(session: URLSessionFake(data: FakeResponseData.weatherCorrectData, response: FakeResponseData.weatherResponseOk, error: nil))
         //When
         let expectation = XCTestExpectation(description: "Wait for queu change")
-        MeteoAPIHelper.performRequest(coords: "&lon=-122.40&lat=37.78") { success, weather in
+        WeatherAPIHelper.performRequest(coords: "&lon=-122.40&lat=37.78") { success, weather in
             //Then
             XCTAssertTrue(success)
             XCTAssertNotNil(weather)

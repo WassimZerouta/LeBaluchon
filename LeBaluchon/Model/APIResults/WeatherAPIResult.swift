@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct MeteoAPIResult: Decodable {
+struct WeatherAPIResult: Decodable {
     var weather: [Weather]
     var main: Main
     var dt: Int
