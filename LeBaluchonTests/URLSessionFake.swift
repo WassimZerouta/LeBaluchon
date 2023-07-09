@@ -13,6 +13,7 @@ class URLSessionFake: URLSession {
     var data: Data?
     var response: URLResponse?
     var error: Error?
+    
     init(data: Data? = nil, response: URLResponse? = nil, error: Error? = nil) {
         self.data = data
         self.response = response
@@ -20,7 +21,7 @@ class URLSessionFake: URLSession {
     }
     
     override func dataTask(with: URL , completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        let task = URLSessionDataTaskWeatherFake()
+        let task = URLSessionDataTaskFake()
         task.completionHandler = completionHandler
         task.data = data
         task.urlResponse = response
@@ -30,7 +31,7 @@ class URLSessionFake: URLSession {
     }
     
     override func dataTask(with: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        let task = URLSessionDataTaskWeatherFake()
+        let task = URLSessionDataTaskFake()
         task.completionHandler = completionHandler
         task.data = data
         task.urlResponse = response
@@ -39,7 +40,7 @@ class URLSessionFake: URLSession {
     }
 }
 
-class URLSessionDataTaskWeatherFake: URLSessionDataTask {
+class URLSessionDataTaskFake: URLSessionDataTask {
     
     var completionHandler: ((Data?, URLResponse?, Error?) -> Void)?
     

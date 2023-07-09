@@ -13,6 +13,12 @@ class Meteo {
     let description: String
     let city: String
     
+    func displayTemperature(temperature: Double) -> String {
+        let intTemperature = Int(temperature)
+        let temp = "\(intTemperature)°C"
+        return temp
+    }
+    
     init(temperature: Double, description: String, city: String) {
         self.temperature = temperature
         self.description = description

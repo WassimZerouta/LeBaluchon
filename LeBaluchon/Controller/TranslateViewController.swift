@@ -13,21 +13,49 @@ class TranslateViewController: UIViewController {
     @IBOutlet weak var targetButton: UIButton!
     @IBOutlet weak var querryTextField: UITextField!
     @IBOutlet weak var translateButton: UIButton!
+    @IBOutlet weak var exchangeLanguageImage: UIImageView!
     @IBOutlet weak var translateResultLabel: UILabel!
     
     var sourceSelected = "fr"
     var targetSelected = "en"
     
+    var a = "francais"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setPopUpButtonAction()
+        
+        let tapGestureReconizer = UITapGestureRecognizer(target: self, action: #selector(exchangeLanguage))
+        exchangeLanguageImage.addGestureRecognizer(tapGestureReconizer)
+        
+
 
     }
     
+    // Inverse the target and the source
+    @objc func exchangeLanguage() {
+        if sourceSelected != targetSelected {
+            if sourceSelected == "fr" {
+                self.sourceButton.setTitle("English", for: .normal)
+                self.targetButton.setTitle("French", for: .normal)
+                sourceSelected = "en"
+                targetSelected = "fr"
+            } else {
+                self.targetButton.setTitle("English", for: .normal)
+                self.sourceButton.setTitle("French", for: .normal)
+                sourceSelected = "fr"
+                targetSelected = "en"
+            }
+        }
+        translateResultLabel.text = ""
+        querryTextField.text = ""
+    }
+    
+    // Define source and target button menu
     func setPopUpButtonAction() {
         sourceButton.menu = UIMenu(children: [
-            UIAction(title: "French", state: .on, handler: { action in
+            UIAction(title: "Fench", state: .on, handler: { action in
                 self.sourceSelected = "fr"
             }),
             UIAction(title: "English", handler: { action in
@@ -55,6 +83,7 @@ class TranslateViewController: UIViewController {
         
     }
 
+    // When translateButton is pressed, the ranslation occurs
     @IBAction func translateButtonPressed(_ sender: Any) {
         TranslateAPIHelper.shared.performRequest(q: querryTextField.text ?? "", source: sourceSelected, target: targetSelected) { _, translateValue in
             DispatchQueue.main.async {

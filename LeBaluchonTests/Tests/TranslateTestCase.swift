@@ -6,6 +6,7 @@
 //
 
 import XCTest
+
 @testable import LeBaluchon
 
 final class TranslateTestCase: XCTestCase {
@@ -40,24 +41,32 @@ final class TranslateTestCase: XCTestCase {
      
      func testGetTranslateShouldPostFailedCallBackIfIncorrectResponse() {
          //Given
-         let TranslateAPIHelper = TranslateAPIHelper(session: URLSessionFake(data: FakeResponseData.incorrectData, response: FakeResponseData.changeResponseKO, error: nil))
+         let TranslateAPIHelper = TranslateAPIHelper(session: URLSessionFake(data: FakeResponseData.translateCorrectData, response: FakeResponseData.changeResponseKO, error: nil))
          //When
+         let expectation = XCTestExpectation(description: "Wait for queu change")
          TranslateAPIHelper.performRequest(q: "Bonjour", source: "fr", target: "en") { success, translate in
              //Then
              XCTAssertFalse(success)
              XCTAssertNil(translate)
+             expectation.fulfill()
          }
+         wait(for: [expectation], timeout: 0.01)
+
       }
      
      func testGetTranslateShouldPostFailedCallBackIfInccorectData() {
          //Given
          let TranslateAPIHelper = TranslateAPIHelper(session: URLSessionFake(data: FakeResponseData.incorrectData, response: FakeResponseData.changeResponseOk, error: nil))
          //When
+         let expectation = XCTestExpectation(description: "Wait for queu change")
          TranslateAPIHelper.performRequest(q: "Bonjour", source: "fr", target: "en") { success, translate in
              //Then
              XCTAssertFalse(success)
              XCTAssertNil(translate)
+             expectation.fulfill()
+
          }
+         wait(for: [expectation], timeout: 0.01)
       }
      
     func testGetTranslateShouldPostSuccessCallBackIfNoErrorAndCorrectData() {

@@ -21,8 +21,8 @@ class ChangeAPIHelper {
     let baseUrl = "https://api.apilayer.com/fixer/convert"
     let from = "EUR"
     let to = "USD"
- 
     
+    // Construct the URL for the API call
     func getUrl(amount: String) -> String? {
         var url = baseUrl
         url += "?from="
@@ -35,6 +35,7 @@ class ChangeAPIHelper {
         return url
     }
     
+    // Perform the API call
     func performRequest(amount: String, completion: @escaping (Bool, Change?) -> Void) {
         
         if let urlString = getUrl(amount: amount) {
@@ -43,18 +44,24 @@ class ChangeAPIHelper {
             request.addValue("\(apiKey)", forHTTPHeaderField: "apikey")
             
             task = session.dataTask(with: request) {data, response, error in
-                if let successData = data {
-                    print(String(data: successData, encoding: .utf8)!)
-                    let decoder = JSONDecoder()
-                    do{
-                        let results = try decoder.decode(ChangeAPIResult.self, from: successData)
-                        completion(true, Change(value: results.result))
-                    } catch {
-                        print(error)
-                    }
-                } else {
-                    completion(false, nil)
+                guard let data = data, error == nil else { completion(false, nil)
+                    return
                 }
+                
+                guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                    completion(false, nil)
+                    return
+                    
+                }
+                
+                let decoder = JSONDecoder()
+                
+                guard let results = try? decoder.decode(ChangeAPIResult.self, from: data) else {
+                    completion(false, nil)
+                    return
+                }
+                completion(true, Change(value: results.result))
+                
             }
             task?.resume()
         } else
@@ -62,5 +69,5 @@ class ChangeAPIHelper {
             completion(false, nil)
         }
     }
-        
-    }
+    
+}
